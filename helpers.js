@@ -216,6 +216,21 @@ helpers.findNearestWeakerEnemy = function (gameData) {
     return pathInfoObject.direction;
 };
 
+helpers.findNearestWeakerEnemyLow = function (gameData) {
+    var hero = gameData.activeHero;
+    var board = gameData.board;
+
+    // Get the path info object
+    var pathInfoObject = helpers.findNearestObjectDirectionAndDistance(board, hero, function (enemyTile) {
+        return enemyTile.type === 'Hero' && enemyTile.team !== hero.team && enemyTile.health < hero.health && enemyTile.health <= 30;
+    });
+
+    // Return the direction that needs to be taken to achieve the goal
+    // If no weaker enemy exists, will simply return undefined, which will
+    // be interpreted as "Stay" by the game object
+    return pathInfoObject.direction;
+};
+
 // Returns the direction of the nearest enemy
 // (or returns false if there are no accessible enemies)
 helpers.findNearestEnemy = function (gameData) {
@@ -240,6 +255,19 @@ helpers.findNearestTeamMember = function (gameData) {
     // Get the path info object
     var pathInfoObject = helpers.findNearestObjectDirectionAndDistance(board, hero, function (heroTile) {
         return heroTile.type === 'Hero' && heroTile.team === hero.team;
+    });
+
+    // Return the direction that needs to be taken to achieve the goal
+    return pathInfoObject.direction;
+};
+
+helpers.findNearestHurtTeamMember = function (gameData) {
+    var hero = gameData.activeHero;
+    var board = gameData.board;
+
+    // Get the path info object
+    var pathInfoObject = helpers.findNearestObjectDirectionAndDistance(board, hero, function (heroTile) {
+        return heroTile.type === 'Hero' && heroTile.team === hero.team && heroTile.health < hero.health && heroTile.health <= 60;
     });
 
     // Return the direction that needs to be taken to achieve the goal
