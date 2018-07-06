@@ -37,6 +37,28 @@ The "move" function should accept two arguments that the website will be passing
 
 // Strategy definitions
 var moves = {
+    //Bully
+    bully: function (gameData, helpers) {
+        if(gameData.activeHero.health < 50) {
+            return helpers.findNearestHealthWell(gameData);
+        } else if( helpers.findNearestWeakerEnemyLow(gameData) != undefined) {
+            return helpers.findNearestWeakerEnemyLow(gameData);
+        }  else if(helpers.findNearestHurtTeamMember(gameData) != undefined) {
+            return helpers.findNearestHurtTeamMember(gameData);
+        }  else if(gameData.activeHero.health < 70) {
+            return helpers.findNearestHealthWell(gameData);   
+        } else if(helpers.findNearestWeakerEnemy(gameData) != undefined) {
+            return helpers.findNearestWeakerEnemy(gameData);
+        } else if(helpers.findNearestUnownedDiamondMine(gameData) != undefined) {
+            return helpers.findNearestUnownedDiamondMine(gameData);
+        } else if(gameData.activeHero.health < 100) {
+            return helpers.findNearestHealthWell(gameData);
+        } else if(helpers.findNearestTeamMember(gameData) != undefined) {
+            return helpers.findNearestTeamMember(gameData);
+        } else {
+            return helpers.findNearestEnemy(gameData);
+        }
+    },
     // Aggressor
     aggressor: function (gameData, helpers) {
         // Here, we ask if your hero's health is below 30
@@ -180,7 +202,7 @@ var moves = {
 };
 
 // Set our hero's strategy
-var move =  moves.aggressor;
+var move =  moves.bully;
 
 // Export the move function here
 module.exports = move;
