@@ -40,7 +40,16 @@ var moves = {
     //Bully
     bully: function (gameData, helpers) {
         if(gameData.activeHero.health < 50) {
-            return helpers.findNearestHealthWell(gameData);
+            var direc = helpers.findNearestEnemy(gameData);
+            if(direc == "North") {
+                return "South";   
+            } else if(direc == "South") {
+                return "North";   
+            } else if(direc == "West") {
+                return "East";   
+            } else if(direc == "East") {
+                return "West";   
+            }
         } else if( helpers.findNearestWeakerEnemyLow(gameData) != undefined) {
             return helpers.findNearestWeakerEnemyLow(gameData);
         }  else if(helpers.findNearestHurtTeamMember(gameData) != undefined) {
